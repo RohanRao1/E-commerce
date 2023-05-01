@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./Header.module.css";
 
-const Header = () => {
+const Header = (props) => {
   return (
     <React.Fragment>
       <header className={classes.fullheader}>
@@ -10,7 +10,7 @@ const Header = () => {
           <button>STORE</button>
           <button>ABOUT</button>
         <div className={classes.cart}>
-            <button>Cart</button>
+            <button onClick={props.onClick}>Cart</button>
             <span>0</span>
         </div>
         </div>
