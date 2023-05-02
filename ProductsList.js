@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Container } from "react-bootstrap";
 import classes from "./ProductList.module.css";
 import BottomCartButton from "../layout/BottomCartButton";
+// import DisplayProductList from "./DisplayProductList";
+import CartContext from "../../store/cartContext";
 
 const productsArr = [
   {
@@ -35,16 +37,24 @@ const productsArr = [
 ];
 
 const ProductsList = (props) => {
+
+  const cartCtx = useContext(CartContext)
+
+  const addItemHandler = item => {
+    cartCtx.addItem({...item, quantity : 1})
+    console.log(item)
+  }
+
   const product = productsArr.map((prod) => (
     <div key={prod.id} className={classes.products}>
-      <div className={classes.list}>
+      <div className={classes.list} >
         <h2>{prod.title}</h2>
         <div style={{ margin: "30px" }}>
           <img src={prod.imageUrl} alt={prod.title} />
         </div>
         <div className={classes.pricecart}>
           <span>Price: ${prod.price}</span>
-          <button>Add To Cart</button>
+          <button onClick={() => addItemHandler(prod)} >Add To Cart</button>
         </div>
       </div>
     </div>
@@ -61,3 +71,5 @@ const ProductsList = (props) => {
 };
 
 export default ProductsList;
+
+

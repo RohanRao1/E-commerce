@@ -1,31 +1,36 @@
-import React from "react";
+import React, {useContext} from "react";
 import classes from "./Cart.module.css";
+import CartContext from "../../store/cartContext";
+import Backdrop from "../UI/Backdrop";
 
-const cartElements = [
-  {
-    title: "Colors",
-    price: 100,
-    imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
-    quantity: 2,
-  },
-  {
-    title: "Black and white Colors",
-    price: 50,
-    imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
-    quantity: 3,
-  },
-  {
-    title: "Yellow and Black Colors",
-    price: 70,
-    imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
-    quantity: 1,
-  },
-];
+// const cartElements = [
+//   {
+//     title: "Colors",
+//     price: 100,
+//     imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
+//     quantity: 2,
+//   },
+//   {
+//     title: "Black and white Colors",
+//     price: 50,
+//     imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
+//     quantity: 3,
+//   },
+//   {
+//     title: "Yellow and Black Colors",
+//     price: 70,
+//     imageUrl: "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
+//     quantity: 1,
+//   },
+// ];
 
 
 const Cart = (props) => {
+  const cartCtx = useContext(CartContext)
+
   return (
     <div>
+      <Backdrop onClick={props.onHideCart} />
       {
         <div className={classes.cart}>
           <h2>CART</h2>
@@ -38,8 +43,8 @@ const Cart = (props) => {
             <span className={classes.third}>QUANTITY</span>
           </div>
           <div>
-            {cartElements.map((prod) => (
-              <div style={{ listStyle: "none" }}>
+            {cartCtx.items.map((prod) => (
+              <div style={{ listStyle: "none" }} key={prod.id}>
                 <div className={classes.product}>
                   <div className={classes.prodrow}>
                     <span className={classes.item}>
@@ -58,7 +63,7 @@ const Cart = (props) => {
           </div>
           <div className={classes.tot}>
             <h1>Total</h1>
-            <span>Rs. 220</span>
+            <span>Rs. {cartCtx.totalAmount}</span>
           </div>
           <div className={classes.purchase}>
             <button>PURCHASE</button>
