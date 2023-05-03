@@ -17,24 +17,24 @@ const Header = (props) => {
         <div className={classes.header}>
           <button>
             <NavLink
-              to="/"
-              style={{ textDecoration: "none", color: "white" }}
+              className="navlink"
+              to="/home"
             >
               HOME
             </NavLink>
           </button>
           <button>
             <NavLink
+              className="navlink"
               to="/store"
-              style={{ textDecoration: "none", color: "white" }}
             >
               STORE
             </NavLink>
           </button>
           <button>
             <NavLink
+              className="navlink"
               to="/about"
-              style={{ textDecoration: "none", color: "white" }}
             >
               ABOUT
             </NavLink>

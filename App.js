@@ -7,6 +7,7 @@ import Cart from "./components/cart/Cart";
 import CartProvider from "./store/CartContextProvider";
 import {Routes, Route} from 'react-router-dom'
 import About from "./components/navigations/About";
+import Home from "./components/navigations/Home";
 
 function App() {
   const [cartShown, setCartShown] = useState(false);
@@ -21,12 +22,14 @@ const showCartHandler = () => {
 
   return (
     <CartProvider>
-      {cartShown && <Cart onHideCart={HideCartHandler} />}
-      <Header onClick={showCartHandler} />
+      <header>
+        {cartShown && <Cart onHideCart={HideCartHandler} />}
+        <Header onClick={showCartHandler} />
+      </header>
       <Routes>
-        <Route path='/' element = {<p>welcome</p>} />
-        <Route path='about' element = {<About />} />
-        <Route path='store' element = {<ProductsList />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="about" element={<About />} />
+        <Route path="store" element={<ProductsList />} />
       </Routes>
       {/* <ProductsList onClick={showCartHandler} /> */}
       <Footer />
