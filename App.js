@@ -1,39 +1,37 @@
-import React, { useState } from "react";
-import "./App.css";
-import Header from "./components/layout/Header";
-import ProductsList from "./components/products/ProductsList";
-import Footer from "./components/layout/Footer";
-import Cart from "./components/cart/Cart";
-import CartProvider from "./store/CartContextProvider";
-import {Routes, Route} from 'react-router-dom'
-import About from "./components/navigations/About";
-import Home from "./components/navigations/Home";
+import React, { useState } from 'react';
+
+import MoviesList from './components/MoviesList';
+import './App.css';
 
 function App() {
-  const [cartShown, setCartShown] = useState(false);
+  const [movies, setMovies] = useState([]);
 
-const showCartHandler = () => {
-    setCartShown(true);
-  };
-
-  const HideCartHandler = () => {
-    setCartShown(false);
-  };
+   function fetchMovieHandler () {
+    fetch('https://swapi.dev/api/films/')
+    .then(Response => {
+      return Response.json()
+    }).then(data => {
+      const transformedMovies = data.results.map(movieData => {
+        return {
+          id : movieData.episode_id,
+          title : movieData.title,
+          openingText : movieData.opening_crawl,
+          releasedate : movieData.release_date
+        }
+      })
+      setMovies(transformedMovies)
+    })
+   }
 
   return (
-    <CartProvider>
-      <header>
-        {cartShown && <Cart onHideCart={HideCartHandler} />}
-        <Header onClick={showCartHandler} />
-      </header>
-      <Routes>
-        <Route path="/home" element={<Home />} />
-        <Route path="about" element={<About />} />
-        <Route path="store" element={<ProductsList />} />
-      </Routes>
-      {/* <ProductsList onClick={showCartHandler} /> */}
-      <Footer />
-    </CartProvider>
+    <React.Fragment>
+      <section>
+        <button onClick={fetchMovieHandler}>Fetch Movies</button>
+      </section>
+      <section>
+        <MoviesList movies={movies} />
+      </section>
+    </React.Fragment>
   );
 }
 
