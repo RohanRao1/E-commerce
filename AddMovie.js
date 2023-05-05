@@ -2,7 +2,7 @@ import React, {useRef} from "react";
 import classes from './AddMovie.module.css'
 
 
-const AddMovie = () => {
+const AddMovie = (props) => {
     const titleInputref = useRef()
     const textInputRef = useRef()
     const dateInputRef = useRef()
@@ -15,13 +15,14 @@ const AddMovie = () => {
         const enteredText = textInputRef.current.value
         const enteredDate = dateInputRef.current.value
 
-        const NewMovieObj = {
+        const movie = {
             title : enteredTitle,
-            text : enteredText,
-            date : enteredDate
+            openingText : enteredText,
+            releaseDate : enteredDate
         }
 
-        console.log(NewMovieObj)
+        props.onAddMovie(movie)
+
         titleInputref.current.value = ''
         textInputRef.current.value = ''
         dateInputRef.current.value = ''
@@ -32,7 +33,7 @@ const AddMovie = () => {
         <label>Title</label>
         <input type="text" id="text" ref={titleInputref}/>
           <label>Opening Text</label>
-          <input type="text" id="desc" className={classes.text} ref={textInputRef} style={{height : '80px'}} />
+          <textarea type="text" id="desc" className={classes.text} ref={textInputRef}  />
         <label>Date</label>
         <input type="date" id="date" ref={dateInputRef} />
         <button>Add Movie</button>
