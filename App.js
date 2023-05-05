@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 
 import MoviesList from "./components/MoviesList";
 import "./App.css";
+import AddMovie from "./components/AddMovie";
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -50,6 +51,9 @@ useEffect(() => {
 
   return (
     <React.Fragment>
+      <section>
+        <AddMovie />
+      </section>
       <section>
         <button onClick={AppLoading}>Fetch Movies</button>
       </section>
