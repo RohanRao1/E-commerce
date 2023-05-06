@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import classes from "./Header.module.css";
 import CartContext from "../../store/cartContext";
-import { Link, NavLink } from "react-router-dom";
+import {  NavLink } from "react-router-dom";
 import "../../App.css";
 
 const Header = (props) => {
@@ -18,7 +18,7 @@ const Header = (props) => {
           <button>
             <NavLink
               className="navlink"
-              to="/home"
+              to="/"
             >
               HOME
             </NavLink>
@@ -37,6 +37,13 @@ const Header = (props) => {
               to="/about"
             >
               ABOUT
+            </NavLink>
+          </button>
+          <button>
+            <NavLink
+            className='navlink'
+            to= "/contactus">
+              ContactUS
             </NavLink>
           </button>
           <div className={classes.cart}>
