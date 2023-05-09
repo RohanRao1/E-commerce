@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import "./App.css";
 import Header from "./components/layout/Header";
-import ProductsList from "./components/products/ProductsList";
+import Store from "./components/navigations/Store";
 import Footer from "./components/layout/Footer";
 import Cart from "./components/cart/Cart";
 import CartProvider from "./store/CartContextProvider";
-import {Routes, Route} from 'react-router-dom'
+import { Route, Switch, Redirect } from "react-router-dom";
 import About from "./components/navigations/About";
 import Home from "./components/navigations/Home";
 import ContactUs from "./components/navigations/ContactUs";
+import ProductDetails from "./components/products/ProductDetails";
 
 function App() {
   const [cartShown, setCartShown] = useState(false);
 
-const showCartHandler = () => {
+  const showCartHandler = () => {
     setCartShown(true);
   };
 
@@ -27,15 +28,28 @@ const showCartHandler = () => {
         {cartShown && <Cart onHideCart={HideCartHandler} />}
         <Header onClick={showCartHandler} />
       </header>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="about" element={<About />} />
-        <Route
-          path="store"
-          element={<ProductsList onClick={showCartHandler} />}
-        />
-        <Route path="contactus" element={<ContactUs />} />
-      </Routes>
+      <main>
+        <Switch>
+          <Route path="/" exact>
+            <Redirect to="/Home" />
+          </Route>
+          <Route path="/home" exact>
+            <Home />
+          </Route>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/store" exact>
+            <Store onClick={showCartHandler} />
+          </Route>
+          <Route path="/contactus">
+            <ContactUs />
+          </Route>
+          <Route path="/store/:productId">
+            <ProductDetails />
+          </Route>
+        </Switch>
+      </main>
       {/* <ProductsList onClick={showCartHandler} /> */}
       <Footer />
     </CartProvider>
