@@ -12,8 +12,10 @@ const MainNavigation = () => {
 
   const onLogoutHandler = () => {
     authCtx.logout()
-    history.push('/')
+    history.push('/auth')
   }
+
+  
 
   return (
     <header className={classes.header}>
@@ -24,7 +26,7 @@ const MainNavigation = () => {
         <ul>
           {!isLoggedIn && (
             <li>
-              <Link to="/auth">Login</Link>
+              <Link to="/auth" >Login</Link>
             </li>
           )}
           {isLoggedIn && (
