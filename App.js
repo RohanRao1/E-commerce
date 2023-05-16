@@ -1,58 +1,36 @@
-import React, { useState } from "react";
-import "./App.css";
-import Header from "./components/layout/Header";
-import Store from "./components/navigations/Store";
-import Footer from "./components/layout/Footer";
-import Cart from "./components/cart/Cart";
-import CartProvider from "./store/CartContextProvider";
-import { Route, Switch, Redirect } from "react-router-dom";
-import About from "./components/navigations/About";
-import Home from "./components/navigations/Home";
-import ContactUs from "./components/navigations/ContactUs";
-import ProductDetails from "./components/products/ProductDetails";
+import { Switch, Route, Redirect } from "react-router-dom";
+import Layout from "./components/Layout/Layout";
+import UserProfile from "./components/Profile/UserProfile";
+import AuthPage from "./pages/AuthPage";
+import HomePage from "./pages/HomePage";
+import { useContext } from "react";
+import AuthContext from "./store/auth-context";
 
 function App() {
-  const [cartShown, setCartShown] = useState(false);
-
-  const showCartHandler = () => {
-    setCartShown(true);
-  };
-
-  const HideCartHandler = () => {
-    setCartShown(false);
-  };
+  const authCtx = useContext(AuthContext);
 
   return (
-    <CartProvider>
-      <header>
-        {cartShown && <Cart onHideCart={HideCartHandler} />}
-        <Header onClick={showCartHandler} />
-      </header>
-      <main>
-        <Switch>
-          <Route path="/" exact>
-            <Redirect to="/Home" />
+    <Layout>
+      <Switch>
+        <Route path="/" exact>
+          <HomePage />
+        </Route>
+        {!authCtx.isLoggedIn && (
+          <Route path="/auth">
+            <AuthPage />
           </Route>
-          <Route path="/home" exact>
-            <Home />
-          </Route>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/store" exact>
-            <Store onClick={showCartHandler} />
-          </Route>
-          <Route path="/contactus">
-            <ContactUs />
-          </Route>
-          <Route path="/store/:productId">
-            <ProductDetails />
-          </Route>
-        </Switch>
-      </main>
-      {/* <ProductsList onClick={showCartHandler} /> */}
-      <Footer />
-    </CartProvider>
+        )}
+
+        <Route path="/profile">
+          {authCtx.isLoggedIn && <UserProfile />}
+          {!authCtx.isLoggedIn && <Redirect to="/" />}
+        </Route>
+
+        <Route path="*">
+          <Redirect to="/" />
+        </Route>
+      </Switch>
+    </Layout>
   );
 }
 
