@@ -28,13 +28,12 @@ const Header = (props) => {
           <button>
             <NavLink to="/home">HOME</NavLink>
           </button>
-          <button>
+          {isLoggedIn && <button>
             <NavLink to="/store">STORE</NavLink>
-          </button>
+          </button> }
           <button>
             <NavLink to="/about">ABOUT</NavLink>
           </button>
-
           <button>
             <NavLink to="/contactus">ContactUS</NavLink>
           </button>
@@ -44,10 +43,10 @@ const Header = (props) => {
           {isLoggedIn && <button onClick={logoutHandler}>
             LOGOUT
           </button>}
-          <div className={classes.cart}>
+          {isLoggedIn && <div className={classes.cart}>
             <button onClick={props.onClick}>Cart</button>
             <span>{totnum}</span>
-          </div>
+          </div> }
         </div>
         <h1>The Generics</h1>
       </header>

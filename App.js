@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./App.css";
 import Header from "./components/layout/Header";
 import Store from "./components/navigations/Store";
@@ -11,13 +11,19 @@ import Home from "./components/navigations/Home";
 import ContactUs from "./components/navigations/ContactUs";
 import ProductDetails from "./components/products/ProductDetails";
 import Login from "./components/auth/Login";
+import AuthContext from "./components/auth/AuthContext";
 
 function App() {
   const [cartShown, setCartShown] = useState(false);
+  const authCtx = useContext(AuthContext)
+
+  const isLoggedIn = authCtx.isLoggedIn
+
 
   const showCartHandler = () => {
     setCartShown(true);
   };
+
 
   const HideCartHandler = () => {
     setCartShown(false);
@@ -32,7 +38,7 @@ function App() {
       <main>
         <Switch>
           <Route path="/" exact>
-            <Redirect to="/Home" />
+            <Redirect to="/login" />
           </Route>
           <Route path="/home" exact>
             <Home />
@@ -40,18 +46,20 @@ function App() {
           <Route path="/about">
             <About />
           </Route>
+          { isLoggedIn &&
           <Route path="/store" exact>
             <Store onClick={showCartHandler} />
-          </Route>
+          </Route> }
           <Route path="/contactus">
             <ContactUs />
           </Route>
           <Route path='/login'>
             <Login />
           </Route>
-          <Route path="/store/:productId">
+          {isLoggedIn && <Route path="/store/:productId">
             <ProductDetails />
-          </Route>
+          </Route> }
+          <Route path='*'>Page Not Found</Route>
         </Switch>
       </main>
       {/* <ProductsList onClick={showCartHandler} /> */}
