@@ -28,9 +28,9 @@ const Header = (props) => {
           <button>
             <NavLink to="/home">HOME</NavLink>
           </button>
-          {isLoggedIn && <button>
+          <button>
             <NavLink to="/store">STORE</NavLink>
-          </button> }
+          </button> 
           <button>
             <NavLink to="/about">ABOUT</NavLink>
           </button>

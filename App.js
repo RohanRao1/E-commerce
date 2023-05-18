@@ -46,10 +46,11 @@ function App() {
           <Route path="/about">
             <About />
           </Route>
-          { isLoggedIn &&
-          <Route path="/store" exact>
-            <Store onClick={showCartHandler} />
-          </Route> }
+        
+          <Route path="/store" exact> 
+          {isLoggedIn &&  <Store onClick={showCartHandler} /> }
+          {!isLoggedIn && <Redirect to='/login' />}
+          </Route> 
           <Route path="/contactus">
             <ContactUs />
           </Route>
