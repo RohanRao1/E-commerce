@@ -30,7 +30,7 @@ function App() {
   };
 
   return (
-    <CartProvider>
+    <>
       <header>
         {cartShown && <Cart onHideCart={HideCartHandler} />}
         <Header onClick={showCartHandler} />
@@ -48,8 +48,8 @@ function App() {
           </Route>
         
           <Route path="/store" exact> 
-          {isLoggedIn &&  <Store onClick={showCartHandler} /> }
-          {!isLoggedIn && <Redirect to='/login' />}
+          {!!authCtx.token  &&  <Store onClick={showCartHandler} /> }
+          {!!!authCtx.token && <Redirect to='/login' />}
           </Route> 
           <Route path="/contactus">
             <ContactUs />
@@ -57,7 +57,7 @@ function App() {
           <Route path='/login'>
             <Login />
           </Route>
-          {isLoggedIn && <Route path="/store/:productId">
+          {!authCtx.token && <Route path="/store/:productId">
             <ProductDetails />
           </Route> }
           <Route path='*'>Page Not Found</Route>
@@ -65,7 +65,7 @@ function App() {
       </main>
       {/* <ProductsList onClick={showCartHandler} /> */}
       <Footer />
-    </CartProvider>
+    </>
   );
 }
 

@@ -4,7 +4,9 @@ import classes from "./Store.module.css";
 import BottomCartButton from "../layout/BottomCartButton";
 // import DisplayProductList from "./DisplayProductList";
 import CartContext from "../../store/cartContext";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import AuthContext from "../auth/AuthContext";
 
 const productsArr = [
   {
@@ -38,12 +40,33 @@ const productsArr = [
 ];
 
 const Store = (props) => {
+  const authCtx = useContext(AuthContext)
+  const userEmail = authCtx.email.replace(/[@.]/g, "");
 
-  const cartCtx = useContext(CartContext)
+  // const cartCtx = useContext(CartContext)
 
   const addItemHandler = item => {
-    cartCtx.addItem({...item, quantity : 1})
+    authCtx.addToCart({...item, quantity : 1})
+
+
+    fetch(
+      `https://crudcrud.com/api/67d838fa42ed47348a90ceee10289616/cart${userEmail}`,
+      {
+        method: "POST",
+        body: JSON.stringify(item),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     console.log(item)
+  }
+
+  const history = useHistory()
+
+  const routeChanger = (prod) => {
+    console.log(prod)
+    history.push(`/store/${prod.id}`);
   }
 
   
@@ -55,15 +78,15 @@ const Store = (props) => {
           <img src={prod.imageUrl} alt={prod.title} />
         </div>
         <div className={classes.pricecart}>
-          <span>Price: ${prod.price}</span>
+          <span>Price: ${prod.price} </span>
           <button onClick={() => addItemHandler(prod)}>Add To Cart</button>
         </div>
-        
-          <Link to={`/store/${prod.id}`} className={classes.link}>
+        <button className={classes.detailedbutton} onClick={() => routeChanger(prod)}>Open Product</button>
+          {/* <Link to={`/store/${prod.id}`} className={classes.link}>
             Open Product
-          </Link>
+          </Link> */}
        
-      </div>
+      </div>  
     </div>
   ));
   return (

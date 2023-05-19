@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import classes from "./Header.module.css";
 import CartContext from "../../store/cartContext";
 import { NavLink, useHistory } from "react-router-dom";
@@ -6,20 +6,40 @@ import "../../App.css";
 import AuthContext from "../auth/AuthContext";
 
 const Header = (props) => {
-  const cartCtx = useContext(CartContext);
+  // const cartCtx = useContext(CartContext);
   const authCtx = useContext(AuthContext)
   const history = useHistory()
 
-  const isLoggedIn = authCtx.isLoggedIn
+  const isLoggedIn = !!authCtx.token
 
-  const totnum = cartCtx.items.reduce((num, item) => {
+  const totnum = authCtx.items.reduce((num, item) => {
     return num + item.quantity;
   }, 0);
 
   const logoutHandler = () => {
     authCtx.logout()
     history.replace('/Login')
+
   }
+let userEmail 
+ if(!!authCtx.token){
+   userEmail = authCtx.email.replace(/[@.]/g, "");
+ }
+
+  async function getItems() {
+    const response = await fetch(
+      `https://crudcrud.com/api/67d838fa42ed47348a90ceee10289616/cart${userEmail}`
+    );
+    const data = await response.json();
+    data.map((item) => {
+      return authCtx.addToCart({ ...item });
+    });
+  }
+
+  useEffect(() => {
+    getItems();
+  }, [userEmail]);
+
 
   return (
     <React.Fragment>
@@ -37,13 +57,13 @@ const Header = (props) => {
           <button>
             <NavLink to="/contactus">ContactUS</NavLink>
           </button>
-          <button>
+          {!isLoggedIn && <button>
             <NavLink to="/login">LOGIN</NavLink>
-          </button>
+          </button>}
           {isLoggedIn && <button onClick={logoutHandler}>
             LOGOUT
           </button>}
-          {isLoggedIn && <div className={classes.cart}>
+          { <div className={classes.cart}>
             <button onClick={props.onClick}>Cart</button>
             <span>{totnum}</span>
           </div> }

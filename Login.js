@@ -52,7 +52,7 @@ const Login = () => {
             }
         }).then(data => {
           console.log(data)
-          authCtx.login(data.idToken)
+          authCtx.login(data.idToken, data.email)
            history.replace('/store')
         }).catch(err => alert(err) )
       } 

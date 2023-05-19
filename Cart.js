@@ -1,7 +1,8 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import classes from "./Cart.module.css";
 import CartContext from "../../store/cartContext";
 import Backdrop from "../UI/Backdrop";
+import AuthContext from "../auth/AuthContext";
 
 // const cartElements = [
 //   {
@@ -26,10 +27,34 @@ import Backdrop from "../UI/Backdrop";
 
 
 const Cart = (props) => {
-  const cartCtx = useContext(CartContext)
+  // const cartCtx = useContext(CartContext)
+
+  // const removeItemHandler = (id) => {
+  //     authCtx.removeItem(id)
+  // }
+
+ const authCtx = useContext(AuthContext)
+
+//  const userEmail = authCtx.email.replace(/[@.]/g, "");
+
+//  async function getItems(){
+//   const response = await fetch(
+//     `https://crudcrud.com/api/623ed5b280fc401d83d1e716ec6a7b5c/cart${userEmail}`
+//   )
+//   const data = await response.json()
+//   data.map(item => {
+//     return authCtx.addToCart({...item})
+//   })
+//  }
+
+//  useEffect(() => {
+//   getItems()
+//  }, [userEmail])
+
 
   return (
     <div>
+    
       <Backdrop onClick={props.onHideCart} />
       {
         <div className={classes.cart}>
@@ -43,7 +68,7 @@ const Cart = (props) => {
             <span className={classes.third}>QUANTITY</span>
           </div>
           <div>
-            {cartCtx.items.map((prod) => (
+            {authCtx.items.map((prod) => (
               <div style={{ listStyle: "none" }} key={prod.id}>
                 <div className={classes.product}>
                   <div className={classes.prodrow}>
@@ -54,7 +79,7 @@ const Cart = (props) => {
                     <span className={classes.price}>{prod.price}</span>
                     <span className={classes.qty}>
                       <span>{prod.quantity}</span>
-                      <button>REMOVE</button>
+                      <button >REMOVE</button>
                     </span>
                   </div>
                 </div>
@@ -63,10 +88,10 @@ const Cart = (props) => {
           </div>
           <div className={classes.tot}>
             <h1>Total</h1>
-            <span>Rs. {cartCtx.totalAmount}</span>
+            <span>Rs. {authCtx.totalAmount}</span>
           </div>
           <div className={classes.purchase}>
-            <button>PURCHASE</button>
+            <button >PURCHASE</button>
           </div>
         </div>
       }
